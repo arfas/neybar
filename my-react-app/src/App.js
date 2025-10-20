@@ -34,7 +34,7 @@ const NayberSignupPage = () => {
   const interests = ['Dogs', 'Parenting', 'Local Jobs', 'Safety', 'Gardening', 'Food', 'Sports', 'Events'];
 
   // TODO: Replace this URL with your Google Apps Script Web App URL
-  const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+  const GOOGLE_SCRIPT_URL = 'https://docs.google.com/spreadsheets/d/1Sc_yEYiBYiKpB_XwfWP2OcMepAXODA8b5hxtzfVSNLI/edit?usp=sharing';
 
   // Fetch real signup count from Google Sheets on load
   useEffect(() => {
@@ -56,7 +56,7 @@ const NayberSignupPage = () => {
   useEffect(() => {
   const fetchSignupCount = async () => {
     try {
-      const response = await fetch('YOUR_GOOGLE_SCRIPT_URL_HERE?count=true');
+      const response = await fetch('https://docs.google.com/spreadsheets/d/1Sc_yEYiBYiKpB_XwfWP2OcMepAXODA8b5hxtzfVSNLI/edit?usp=sharing?count=true');
       const data = await response.json();
       setSignups(data.count || 247);
     } catch (error) {
@@ -71,7 +71,7 @@ const NayberSignupPage = () => {
   const handleSubmit = async () => {
   if (email && zipCode && zipCode.length === 5) {
     try {
-      const response = await fetch('YOUR_GOOGLE_SCRIPT_URL_HERE', {
+      const response = await fetch('https://docs.google.com/spreadsheets/d/1Sc_yEYiBYiKpB_XwfWP2OcMepAXODA8b5hxtzfVSNLI/edit?usp=sharing', {
         method: 'POST',
         mode: 'no-cors', // Important for Google Scripts
         headers: {
