@@ -29,6 +29,8 @@ const NayberSignupPage = () => {
     }
   }, [isDemoPlaying, demoScene]);
 
+  
+
   const interests = ['Dogs', 'Parenting', 'Local Jobs', 'Safety', 'Gardening', 'Food', 'Sports', 'Events'];
 
   // TODO: Replace this URL with your Google Apps Script Web App URL
@@ -51,44 +53,57 @@ const NayberSignupPage = () => {
     fetchSignupCount();
   }, []);
 
-  const handleSubmit = async () => {
-    if (email && zipCode && zipCode.length === 5) {
-      try {
-        // Send to Google Sheets
-        await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-            zipCode: zipCode,
-            interests: selectedInterests.join(', '),
-            source: window.location.search.includes('utm_source') 
-              ? new URLSearchParams(window.location.search).get('utm_source')
-              : 'direct'
-          })
-        });
-        
-        setSignups(prev => prev + 1);
-        setShowSuccess(true);
-        
-        console.log('✅ Signup successful:', { email, zipCode, interests: selectedInterests });
-        
-        setTimeout(() => {
-          setEmail('');
-          setZipCode('');
-          setSelectedInterests([]);
-          setShowSuccess(false);
-        }, 3000);
-      } catch (error) {
-        console.error('Signup error:', error);
-        setShowSuccess(true); // Still show success to user
-        setSignups(prev => prev + 1);
-      }
+  useEffect(() => {
+  const fetchSignupCount = async () => {
+    try {
+      const response = await fetch('YOUR_GOOGLE_SCRIPT_URL_HERE?count=true');
+      const data = await response.json();
+      setSignups(data.count || 247);
+    } catch (error) {
+      console.log('Could not fetch count');
     }
   };
+  
+  fetchSignupCount();
+}, []);
+  
+
+  const handleSubmit = async () => {
+  if (email && zipCode && zipCode.length === 5) {
+    try {
+      const response = await fetch('YOUR_GOOGLE_SCRIPT_URL_HERE', {
+        method: 'POST',
+        mode: 'no-cors', // Important for Google Scripts
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          zipCode: zipCode,
+          interests: selectedInterests.join(', '),
+          source: window.location.href.includes('reddit') ? 'reddit' : 
+                  window.location.href.includes('twitter') ? 'twitter' : 'direct'
+        })
+      });
+      
+      setSignups(prev => prev + 1);
+      setShowSuccess(true);
+      
+      // Optional: Also log to console for debugging
+      console.log('Signup successful:', { email, zipCode, interests: selectedInterests });
+      
+      setTimeout(() => {
+        setEmail('');
+        setZipCode('');
+        setSelectedInterests([]);
+        setShowSuccess(false);
+      }, 3000);
+    } catch (error) {
+      console.error('Signup error:', error);
+      alert('Something went wrong. Please try again!');
+    }
+  }
+};
 
   const toggleInterest = (interest) => {
     setSelectedInterests(prev => 
