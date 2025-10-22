@@ -40,6 +40,7 @@ const NayberSignupPage = () => {
     }
   }, [isDemoPlaying, demoScene]);
 
+  // --- THIS FUNCTION IS UPDATED ---
   const handleSubmit = async () => {
     console.log('=== SIGNUP DEBUG ===');
     console.log('Email:', email);
@@ -48,21 +49,26 @@ const NayberSignupPage = () => {
 
     if (email && zipCode && zipCode.length === 5) {
       const payload = {
+        action: 'signup', // Added action parameter
         email: email,
         zipCode: zipCode,
         interests: selectedInterests.join(', '),
         source: 'github-pages'
       };
 
+      // 1. Encode your payload into URL query parameters
+      const queryString = new URLSearchParams(payload).toString();
+      const URL_WITH_PARAMS = `${GOOGLE_SCRIPT_URL}?${queryString}`;
+
       console.log('Payload:', payload);
-      console.log('Sending to Google Sheets...');
+      console.log('Sending to Google Sheets via GET...');
+      console.log('Final URL:', URL_WITH_PARAMS);
 
       try {
-        await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+        // 2. Change the fetch to a simple GET request
+        await fetch(URL_WITH_PARAMS, {
+          method: 'GET',
+          mode: 'cors' // Use 'cors' (which is default)
         });
 
         console.log('✅ Request sent! Check Google Sheets in 5-10 seconds');
@@ -83,6 +89,7 @@ const NayberSignupPage = () => {
       console.log('⚠️ Validation failed');
     }
   };
+  // --- END OF UPDATED FUNCTION ---
 
   const toggleInterest = (interest) => {
     setSelectedInterests(prev =>
