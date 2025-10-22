@@ -12,7 +12,7 @@ const NayberSignupPage = () => {
   const [isDemoPlaying, setIsDemoPlaying] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
 
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyF9hIgBimiEgelorpjYHlwgcy3tR7D6gZ7qsVR9kXNi9PPYPhblLGP49xl2WdhcXos/exec';
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjRcGZgAF0ixMXoub034oDExbNlVypJi6t5G1NtTxiolo44fsQgsx4yqJqB_Vz212n/exec';
 
   const interests = ['Dogs', 'Parenting', 'Local Jobs', 'Safety', 'Gardening', 'Food', 'Sports', 'Events'];
 
