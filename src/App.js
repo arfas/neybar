@@ -10,7 +10,7 @@ const NayberSignupPage = () => {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const GOOGLE_SCRIPT_URL = 'YOUR_DEPLOYED_SCRIPT_URL_HERE'; // <-- Update with your deployed URL
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwMji-8wEtPERz7RmxqwSr1vnbmqlAScG5m5g287GzfVnVVWZ9E5sppg30WzBCbOK6g/exec'; // <-- Update with your deployed URL
 
   const interests = ['Dogs', 'Parenting', 'Local Jobs', 'Safety', 'Gardening', 'Food', 'Sports', 'Events'];
 
