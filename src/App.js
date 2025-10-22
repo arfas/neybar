@@ -12,7 +12,7 @@ const NayberSignupPage = () => {
   const [isDemoPlaying, setIsDemoPlaying] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
 
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjRcGZgAF0ixMXoub034oDExbNlVypJi6t5G1NtTxiolo44fsQgsx4yqJqB_Vz212n/exec';
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxkvoxKJbadUdK8LDd9jwJdSj7o2Dn1r-IBVjs9ANgOVhgV8BO_5citTdOpU2S_qIX/exec';
 
   const interests = ['Dogs', 'Parenting', 'Local Jobs', 'Safety', 'Gardening', 'Food', 'Sports', 'Events'];
 
@@ -40,7 +40,6 @@ const NayberSignupPage = () => {
     }
   }, [isDemoPlaying, demoScene]);
 
-  // --- THIS FUNCTION IS UPDATED ---
   const handleSubmit = async () => {
     console.log('=== SIGNUP DEBUG ===');
     console.log('Email:', email);
@@ -49,26 +48,21 @@ const NayberSignupPage = () => {
 
     if (email && zipCode && zipCode.length === 5) {
       const payload = {
-        action: 'signup', // Added action parameter
         email: email,
         zipCode: zipCode,
         interests: selectedInterests.join(', '),
         source: 'github-pages'
       };
 
-      // 1. Encode your payload into URL query parameters
-      const queryString = new URLSearchParams(payload).toString();
-      const URL_WITH_PARAMS = `${GOOGLE_SCRIPT_URL}?${queryString}`;
-
       console.log('Payload:', payload);
-      console.log('Sending to Google Sheets via GET...');
-      console.log('Final URL:', URL_WITH_PARAMS);
+      console.log('Sending to Google Sheets...');
 
       try {
-        // 2. Change the fetch to a simple GET request
-        await fetch(URL_WITH_PARAMS, {
-          method: 'GET',
-          mode: 'cors' // Use 'cors' (which is default)
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         });
 
         console.log('✅ Request sent! Check Google Sheets in 5-10 seconds');
@@ -89,7 +83,6 @@ const NayberSignupPage = () => {
       console.log('⚠️ Validation failed');
     }
   };
-  // --- END OF UPDATED FUNCTION ---
 
   const toggleInterest = (interest) => {
     setSelectedInterests(prev =>
