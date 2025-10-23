@@ -58,11 +58,15 @@ const NayberSignupPage = () => {
       console.log('Sending to Google Sheets...');
 
       try {
+        const formData = new FormData();
+        formData.append('email', payload.email);
+        formData.append('zipCode', payload.zipCode);
+        formData.append('interests', payload.interests);
+        formData.append('source', payload.source);
+
         await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: formData
         });
 
         console.log('✅ Request sent! Check Google Sheets in 5-10 seconds');
