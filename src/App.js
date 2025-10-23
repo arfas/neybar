@@ -20,11 +20,15 @@ const NayberSignupPage = () => {
     const fetchSignupCount = async () => {
       try {
         const response = await fetch(`${GOOGLE_SCRIPT_URL}?count=true`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
-        if (data.count) {
+        if (data && data.count) {
           setSignups(data.count);
         }
       } catch (error) {
+        console.error('Error fetching signup count:', error);
         console.log('Using default signup count');
       }
     };
